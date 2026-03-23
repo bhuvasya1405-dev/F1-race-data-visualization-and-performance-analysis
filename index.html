@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>F1 Telemetry Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: white;
+        }
+
+        .topbar {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar span {
+            color: #e10600;
+            font-weight: bold;
+        }
+
+        .topbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .topbar a:hover {
+            color: #e10600;
+        }
+
+        .container {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background: #151515;
+            padding: 40px;
+            border-radius: 15px;
+            width: 600px;
+            box-shadow: 0 0 30px rgba(225, 6, 0, 0.25);
+        }
+
+        h1 {
+            text-align: center;
+            color: #e10600;
+            margin-bottom: 30px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: none;
+            background-color: #222;
+            color: white;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #e10600;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #e10600, #8b0000);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .description {
+            margin-top: 15px;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div>F1 Telemetry Dashboard</div>
+    <div>
+        Logged in as: <span>{{ session['user'] }}</span>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+
+        <h1>Telemetry Analysis</h1>
+
+        <form method="POST">
+
+            <input type="text" name="year" placeholder="Year (e.g. 2023)" required>
+
+            <input type="text" name="gp" placeholder="Grand Prix (e.g. Bahrain)" required>
+
+            <input type="text" name="session" placeholder="Session (FP1 / Q / R)" required>
+
+            <input type="text" name="drivers" placeholder="Drivers (VER, HAM)" required>
+
+            <select name="analysis" required>
+                <option value="">Select Analysis Type</option>
+                <option>Lap Time</option>
+                <option>Fastest Lap</option>
+                <option>Full Telemetry</option>
+            </select>
+
+                       <button type="submit">Generate Analysis</button>
+
+        </form>
+
+        {% if image %}
+        <div class="result">
+            <h2>Analysis Result</h2>
+            <img src="{{ url_for('static', filename='plot/' + image) }}">
+        </div>
+        {% endif %}
+
+        {% if description %}
+        <div class="description">
+            {{ description }}
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>
